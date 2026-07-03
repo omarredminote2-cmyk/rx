@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روشتة | جلسات طبية لايف تفهّمك أي موضوع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F6F1;
+    --paper-line:#e4e7de;
+    --ink:#14231F;
+    --ink-soft:#4c5850;
+    --teal:#0F4C43;
+    --teal-deep:#0A2E29;
+    --teal-tint:#E3EFEA;
+    --coral:#E15C42;
+    --coral-tint:#FBE6E1;
+    --amber:#E2A33E;
+    --amber-tint:#FBF0DD;
+    --sage:#4C9A73;
+    --sage-tint:#E5F2EA;
+    --line:#DADFD3;
+    --white:#FFFFFF;
+    --shadow:0 24px 48px -24px rgba(20,35,31,.28);
+    --shadow-sm:0 10px 24px -14px rgba(20,35,31,.25);
+    --radius-lg:22px;
+    --radius-md:14px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top:88px;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(var(--paper-line) 1px, transparent 1.5px) 0 0/22px 22px,
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Cairo', sans-serif; margin:0; color:var(--ink);}
+  p{margin:0;}
+  a{color:inherit; text-decoration:none;}
+  ul{margin:0; padding:0; list-style:none;}
+  button{font-family:inherit;}
+  img,svg{display:block; max-width:100%;}
+  .mono{font-family:'IBM Plex Mono', monospace; font-weight:600;}
+
+  :focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:4px;}
+
+  .container{max-width:1200px; margin-inline:auto; padding-inline:clamp(20px,5vw,48px);}
+  .section{padding-block:clamp(56px,8vw,108px);}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:700; font-size:.85rem; color:var(--teal);
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--coral); flex:none;}
+  .eyebrow.on-dark{color:var(--amber);}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head h2{font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:800; line-height:1.25;}
+  .section-head p{margin-top:14px; color:var(--ink-soft); font-size:1.05rem;}
+
+  /* ---------- buttons & chips ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:15px 30px; border-radius:999px; border:none; cursor:pointer;
+    font-family:'Cairo', sans-serif; font-weight:700; font-size:1rem;
+    transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  }
+  .btn-primary{background:var(--coral); color:#fff; box-shadow:0 14px 26px -12px rgba(225,92,66,.65);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 18px 32px -12px rgba(225,92,66,.75);}
+  .btn-ghost{background:transparent; color:var(--teal); border:1.5px solid var(--teal);}
+  .btn-ghost:hover{background:var(--teal-tint);}
+  .btn-light{background:var(--paper); color:var(--teal-deep);}
+  .btn-light:hover{transform:translateY(-2px); box-shadow:var(--shadow-sm);}
+  .btn-block{width:100%;}
+
+  .chip{
+    border:1.5px solid var(--line); background:#fff; border-radius:999px;
+    padding:10px 18px; font-weight:600; font-size:.88rem; cursor:pointer;
+    color:var(--ink-soft); transition:.18s ease;
+  }
+  .chip:hover{border-color:var(--teal);}
+  .chip[data-level="routine"].active{background:var(--sage-tint); border-color:var(--sage); color:#2f6e4d;}
+  .chip[data-level="soon"].active{background:var(--amber-tint); border-color:var(--amber); color:#8a5a12;}
+  .chip[data-level="urgent"].active{background:var(--coral-tint); border-color:var(--coral); color:var(--coral);}
+
+  /* ---------- header ---------- */
+  .site-header{
+    position:sticky; top:0; z-index:60;
+    background:rgba(245,246,241,.86); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    transition:box-shadow .25s ease;
+  }
+  .site-header.scrolled{box-shadow:0 8px 24px -18px rgba(20,35,31,.4);}
+  .nav-wrap{
+    max-width:1200px; margin-inline:auto; padding:14px clamp(20px,5vw,48px);
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Cairo'; font-weight:800; font-size:1.3rem;}
+  .logo .rx-mark{
+    width:34px; height:34px; border-radius:9px; background:var(--teal); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:.85rem;
+    font-family:'IBM Plex Mono'; flex:none; transform:rotate(-6deg);
+  }
+  .nav-links{display:none; align-items:center; gap:30px; font-weight:600; font-size:.95rem;}
+  .nav-links a{color:var(--ink-soft); transition:color .18s;}
+  .nav-links a:hover{color:var(--teal);}
+  .header-actions{display:flex; align-items:center; gap:14px;}
+  .nav-toggle{
+    display:flex; width:40px; height:40px; border-radius:10px; border:1.5px solid var(--line);
+    background:#fff; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-toggle svg{width:18px; height:18px;}
+  .mobile-panel{
+    display:none; flex-direction:column; gap:4px; padding:10px clamp(20px,5vw,48px) 20px;
+    border-bottom:1px solid var(--line); background:var(--paper);
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{padding:12px 4px; font-weight:600; color:var(--ink-soft); border-bottom:1px dashed var(--line);}
+
+  @media(min-width:900px){
+    .nav-links{display:flex;}
+    .nav-toggle{display:none;}
+    .mobile-panel{display:none !important;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; overflow:hidden; padding-block:clamp(48px,7vw,88px);}
+  .ekg{position:absolute; inset-inline-start:-5%; top:8%; width:70%; opacity:.14; stroke:var(--teal); pointer-events:none;}
+  .ekg path{fill:none; stroke-width:2.5; stroke-dasharray:16 10;}
+  @media (prefers-reduced-motion:no-preference){
+    .ekg path{animation:dash 6s linear infinite;}
+  }
+  @keyframes dash{to{stroke-dashoffset:-260;}}
+
+  .hero-inner{
+    position:relative; display:grid; gap:44px; align-items:center;
+    grid-template-columns:1fr; max-width:1200px; margin-inline:auto; padding-inline:clamp(20px,5vw,48px);
+  }
+  @media(min-width:960px){.hero-inner{grid-template-columns:1.05fr .95fr; gap:60px;}}
+
+  .hero-title{font-size:clamp(2.5rem,5.4vw,4.3rem); font-weight:900; line-height:1.08; letter-spacing:-.01em;}
+  .hero-title span{color:var(--coral);}
+  .hero-sub{margin-top:20px; font-size:1.15rem; color:var(--ink-soft); max-width:480px;}
+  .hero-stats{display:flex; flex-wrap:wrap; gap:28px; margin-top:34px;}
+  .hero-stat b{display:block; font-family:'IBM Plex Mono'; font-size:1.35rem; color:var(--teal-deep);}
+  .hero-stat span{font-size:.85rem; color:var(--ink-soft);}
+
+  /* prescription card */
+  .rx-card{
+    position:relative; background:#fff; border:1px solid var(--line); border-radius:var(--radius-lg);
+    box-shadow:var(--shadow); padding:30px 26px 26px; margin-top:6px;
+  }
+  .rx-card::before{
+    content:""; position:absolute; top:-1px; left:26px; right:26px; height:18px;
+    background-image:radial-gradient(circle, var(--paper) 6.5px, transparent 7px);
+    background-size:20px 20px; background-position:0 -9px; background-repeat:repeat-x;
+  }
+  .rx-tag{
+    position:absolute; top:18px; left:22px; font-family:'IBM Plex Mono'; font-size:.7rem;
+    color:var(--ink-soft); opacity:.6;
+  }
+  .rx-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px; padding-top:6px;}
+  .rx-head h3{font-size:1.15rem; font-weight:800; color:var(--teal-deep);}
+  .rx-head .date{font-size:.78rem; color:var(--ink-soft);}
+  .field-label{display:block; font-size:.85rem; font-weight:700; color:var(--ink-soft); margin-bottom:10px;}
+  .rx-input{
+    width:100%; border:none; border-bottom:1.5px dashed var(--line); background:transparent;
+    padding:10px 2px 14px; font-size:1.05rem; font-family:inherit; color:var(--ink);
+  }
+  .rx-input:focus{border-bottom-color:var(--teal); outline:none;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 22px;}
+  .rx-card .btn{margin-top:4px;}
+  .rx-trust{
+    display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:18px; padding-top:16px;
+    border-top:1px dashed var(--line); font-size:.82rem; color:var(--ink-soft);
+  }
+  .rx-success{display:none; text-align:center; padding:26px 6px;}
+  .rx-success.show{display:block;}
+  .rx-success .check{
+    width:52px; height:52px; border-radius:50%; background:var(--sage-tint); color:var(--sage);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 14px;
+  }
+  .rx-success h3{font-size:1.1rem; margin-bottom:8px;}
+  .rx-success p{color:var(--ink-soft); font-size:.95rem;}
+  .rx-form.hidden{display:none;}
+
+  /* ---------- how it works ---------- */
+  .how{background:var(--teal-tint);}
+  .how-grid{display:grid; gap:22px; grid-template-columns:1fr; position:relative;}
+  @media(min-width:800px){.how-grid{grid-template-columns:repeat(4,1fr);}}
+  .case-card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:24px 20px; box-shadow:var(--shadow-sm);
+  }
+  .case-num{font-family:'IBM Plex Mono'; color:var(--coral); font-size:.85rem; margin-bottom:14px; display:block;}
+  .case-card h3{font-size:1.08rem; font-weight:800; margin-bottom:10px;}
+  .case-card p{color:var(--ink-soft); font-size:.92rem;}
+
+  /* ---------- doctors ---------- */
+  .doctor-grid{display:grid; gap:20px; grid-template-columns:1fr; max-width:640px;}
+  @media(min-width:640px){.doctor-grid{grid-template-columns:repeat(2,1fr);}}
+  .doctor-card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:22px; text-align:center; transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .doctor-card:hover{transform:translateY(-4px); box-shadow:var(--shadow-sm); border-color:var(--teal);}
+  .avatar{
+    width:66px; height:66px; border-radius:50%; margin:0 auto 14px; display:flex;
+    align-items:center; justify-content:center; font-family:'Cairo'; font-weight:800; font-size:1.1rem; color:#fff;
+  }
+  .doctor-card h3{font-size:1.02rem; font-weight:800; margin-bottom:4px;}
+  .specialty{display:inline-block; font-size:.78rem; font-weight:600; color:var(--teal); background:var(--teal-tint); padding:4px 12px; border-radius:999px; margin-bottom:12px;}
+  .rating{display:flex; align-items:center; justify-content:center; gap:6px; font-size:.85rem; color:var(--ink-soft); margin-bottom:10px;}
+  .rating svg{width:14px; height:14px; fill:var(--amber);}
+  .response-tag{display:inline-block; font-size:.76rem; font-weight:700; padding:5px 12px; border-radius:999px;}
+  .response-tag.fast{background:var(--sage-tint); color:#2f6e4d;}
+  .response-tag.mid{background:var(--amber-tint); color:#8a5a12;}
+
+  /* ---------- reviews (dark band) ---------- */
+  .reviews{background:var(--teal-deep); color:#fff;}
+  .reviews .section-head p{color:#c9d8d2;}
+  .review-grid{display:grid; gap:22px; grid-template-columns:1fr;}
+  @media(min-width:820px){.review-grid{grid-template-columns:repeat(3,1fr);}}
+  .review-card{
+    position:relative; background:var(--paper); color:var(--ink); border-radius:var(--radius-md);
+    padding:26px 22px 22px; box-shadow:0 20px 40px -20px rgba(0,0,0,.5);
+  }
+  .review-card::before{
+    content:""; position:absolute; top:-9px; right:26px; width:26px; height:18px;
+    background:var(--coral); border-radius:3px; transform:rotate(-4deg); opacity:.9;
+  }
+  .review-stars{display:flex; gap:4px; margin-bottom:12px;}
+  .review-stars svg{width:14px; height:14px; fill:var(--amber);}
+  .review-card p.quote{font-size:.98rem; color:var(--ink); margin-bottom:16px;}
+  .review-who{font-size:.82rem; color:var(--ink-soft); font-weight:600;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{border-top:1px solid var(--line);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    background:none; border:none; padding:22px 4px; text-align:right; cursor:pointer;
+    font-family:'Cairo'; font-weight:700; font-size:1.02rem; color:var(--ink);
+  }
+  .faq-q svg{width:18px; height:18px; flex:none; transition:transform .25s ease; color:var(--teal);}
+  .faq-item.open .faq-q svg{transform:rotate(180deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .faq-a p{padding:0 4px 22px; color:var(--ink-soft); font-size:.96rem; max-width:680px;}
+
+  /* ---------- CTA banner ---------- */
+  .cta-banner{background:var(--teal); color:#fff; text-align:center;}
+  .cta-banner h2{font-size:clamp(1.6rem,3vw,2.3rem); font-weight:800; margin-bottom:14px;}
+  .cta-banner p{color:#cfe1da; max-width:480px; margin:0 auto 26px; font-size:1.02rem;}
+
+  /* ---------- footer ---------- */
+  .site-footer{border-top:1px solid var(--line); padding-block:48px 26px;}
+  .footer-grid{display:grid; gap:32px; grid-template-columns:1fr; margin-bottom:32px;}
+  @media(min-width:760px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr;}}
+  .footer-grid h4{font-size:.95rem; font-weight:800; margin-bottom:14px;}
+  .footer-grid p{color:var(--ink-soft); font-size:.92rem; max-width:320px;}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{color:var(--ink-soft); font-size:.92rem;}
+  .footer-links a:hover{color:var(--teal);}
+  .footer-bottom{
+    border-top:1px dashed var(--line); padding-top:20px; display:flex; flex-wrap:wrap;
+    justify-content:space-between; gap:10px; font-size:.8rem; color:var(--ink-soft);
+  }
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    .ekg path{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="nav-wrap">
+    <a href="#top" class="logo"><span class="rx-mark">Rx</span>روشتة</a>
+    <nav class="nav-links">
+      <a href="#how">إزاي بتشتغل</a>
+      <a href="#doctors">دكاترتنا</a>
+      <a href="#reviews">آراء الطلاب</a>
+      <a href="#faq">الأسئلة الشائعة</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#hero-form" class="btn btn-primary" style="padding:11px 22px; font-size:.9rem;">اطلب جلسة</a>
+      <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#how">إزاي بتشتغل</a>
+    <a href="#doctors">دكاترتنا</a>
+    <a href="#reviews">آراء الطلاب</a>
+    <a href="#faq">الأسئلة الشائعة</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="ekg" viewBox="0 0 800 100" preserveAspectRatio="none">
+      <path d="M0,50 L60,50 L80,20 L100,80 L120,10 L140,90 L160,50 L260,50 L280,30 L300,70 L320,10 L340,90 L360,50 L800,50"/>
+    </svg>
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">أول عيادة لايف لتفهيم الطب في المنطقة</span>
+        <h1 class="hero-title">إيه اللي عايز<br>تفهمه <span>النهاردة؟</span></h1>
+        <p class="hero-sub">قول لنا موضوعك، وإحنا هنوصّلك بدكتور متخصص يشرحلك لايف قبل المحاضرة أو الامتحان — من غير كورسات طويلة ولا تسجيلات.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><b dir="ltr">+2,300</b><span>طالب طب استخدموا روشتة</span></div>
+          <div class="hero-stat"><b dir="ltr">4.9<span style="font-size:.8rem;">/5</span></b><span>تقييم الطلاب</span></div>
+          <div class="hero-stat"><b dir="ltr">~12 د</b><span>متوسط وقت الرد</span></div>
+        </div>
+      </div>
+
+      <div class="rx-card" id="hero-form">
+        <span class="rx-tag" dir="ltr">RX-2691</span>
+        <div class="rx-head">
+          <h3>روشتتك الشخصية</h3>
+          <span class="date">التاريخ: النهاردة</span>
+        </div>
+
+        <form class="rx-form" id="rxForm">
+          <label class="field-label" for="topicInput">الموضوع اللي محتاج فيه مساعدة</label>
+          <input class="rx-input" id="topicInput" type="text" placeholder="مثلاً: مش فاهم الـ Brachial Plexus" required>
+
+          <div style="margin-top:22px;">
+            <span class="field-label">إمتى محتاج الجلسة؟</span>
+            <div class="chip-row" id="urgencyRow">
+              <button type="button" class="chip active" data-level="routine">عادي، ولا يهمك</button>
+              <button type="button" class="chip" data-level="soon">قريب — خلال يومين</button>
+              <button type="button" class="chip" data-level="urgent">مستعجل! امتحان قرّب</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">احجز جلستك دلوقتي</button>
+        </form>
+
+        <div class="rx-success" id="rxSuccess">
+          <div class="check">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>تم استلام طلبك ✅</h3>
+          <p>فريق روشتة بيدورلك دلوقتي على أنسب دكتور، وهيوصلك عرض بالاسم والميعاد والسعر خلال دقايق.</p>
+          <button type="button" class="btn btn-ghost" id="rxReset" style="margin-top:18px;">إرسال طلب تاني</button>
+        </div>
+
+        <div class="rx-trust">
+          <span>✓ دفع آمن</span>
+          <span>✓ جلسات لايف بس</span>
+          <span>✓ إلغاء مرن</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">رحلتك مع روشتة</span>
+        <h2>من السؤال للفهم في 4 خطوات</h2>
+        <p>مفيش تعقيد ومفيش خطوات زيادة. بس اللي محتاجه فعلاً عشان تفهم.</p>
+      </div>
+      <div class="how-grid">
+        <div class="case-card reveal">
+          <span class="case-num" dir="ltr">CASE 01</span>
+          <h3>اكتب مشكلتك</h3>
+          <p>قول لنا بالظبط إيه اللي مش فاهمه، من غير ما تدوّر على دكتور بنفسك.</p>
+        </div>
+        <div class="case-card reveal">
+          <span class="case-num" dir="ltr">CASE 02</span>
+          <h3>هنوصّلك بالدكتور المناسب</h3>
+          <p>فريق روشتة بيدور على أنسب دكتور متخصص في موضوعك ويبعتلك عرض بالسعر والميعاد.</p>
+        </div>
+        <div class="case-card reveal">
+          <span class="case-num" dir="ltr">CASE 03</span>
+          <h3>احجز وادفع بأمان</h3>
+          <p>توافق على العرض، تدفع أونلاين، وتتأكد الجلسة فورًا مع تذكير قبلها.</p>
+        </div>
+        <div class="case-card reveal">
+          <span class="case-num" dir="ltr">CASE 04</span>
+          <h3>احضر الجلسة لايف</h3>
+          <p>تدخل الجلسة، تفهم الموضوع بجد، وتقيّم الدكتور بعدها.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section class="section" id="doctors">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">نخبة الدكاترة</span>
+        <h2>اتعلم من دكاترة بيشرحوا زي ما بتحب</h2>
+        <p>كل الدكاترة معتمدين ومراجَعين، وبيشتغلوا بس على جلسات لايف مباشرة معاك.</p>
+      </div>
+      <div class="doctor-grid">
+        <div class="doctor-card reveal">
+          <div class="avatar" style="background:var(--teal);">أ</div>
+          <h3>د. أحمد</h3>
+          <span class="specialty">ممارس عام</span>
+          <div class="rating">
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <span dir="ltr">4.9</span>
+          </div>
+          <span class="response-tag fast">بيرد خلال 8 دقايق</span>
+        </div>
+        <div class="doctor-card reveal">
+          <div class="avatar" style="background:var(--coral);">م</div>
+          <h3>د. منار</h3>
+          <span class="specialty">طبيب امتياز</span>
+          <div class="rating">
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <span dir="ltr">5.0</span>
+          </div>
+          <span class="response-tag fast">بيرد خلال 5 دقايق</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow on-dark">مش بس آراء… تجارب حقيقية</span>
+        <h2>طلاب فهموا، مش حفظوا</h2>
+        <p>كل تقييم من طالب حجز جلسة فعلية عن طريق روشتة.</p>
+      </div>
+      <div class="review-grid">
+        <div class="review-card reveal">
+          <div class="review-stars">
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          </div>
+          <p class="quote">كنت تايهة في الـ Brachial Plexus قبل الامتحان بيوم، حجزت جلسة وفهمت كل حاجة في ساعة واحدة.</p>
+          <span class="review-who">طالبة سنة تانية، جامعة القاهرة</span>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-stars">
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          </div>
+          <p class="quote">الدكتورة شرحتلي الـ Histology بطريقة سهلة جدًا، حسيت إني وفرت أسابيع مذاكرة في جلسة واحدة.</p>
+          <span class="review-who">طالب سنة أولى، جامعة الإسكندرية</span>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-stars">
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          </div>
+          <p class="quote">أسرع حجز عملته في حياتي، من الطلب للجلسة اللايف أقل من ساعتين قبل الامتحان مباشرة.</p>
+          <span class="review-who">طالبة سنة تانية، جامعة عين شمس</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">أسئلة بتتسأل كتير</span>
+        <h2>محتاج تعرف حاجة قبل ما تحجز؟</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q">
+            إزاي بختار الدكتور المناسب؟
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>إنت بس تكتب موضوعك، وفريق روشتة بيدورلك على أنسب دكتور متخصص فيه، وبيبعتلك عرض بالاسم والميعاد والسعر.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            إمتى بدفع؟
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>بعد ما توافق على عرض الدكتور والميعاد، تدفع أونلاين بأمان وتتأكد الجلسة فورًا.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            لو محتاج ألغي أو أأجل الجلسة؟
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>تقدر تلغي أو تأجل من صفحة "حجوزاتي" قبل الميعاد بوقت كافي حسب سياسة الإلغاء.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            الجلسات بتتسجل؟
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>روشتة مبنية على جلسات لايف مباشرة بس، مفيش تسجيلات ولا كورسات مسبقة.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            تقدر أطلب جلسة جماعية مع زمايلي؟
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a"><p>أيوه، تقدر تختار "مجموعة صغيرة" بدل "جلسة خاصة" وقت الحجز.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section cta-banner">
+    <div class="container">
+      <h2>لسه مش فاهم موضوعك؟</h2>
+      <p>ابعتلنا اسم الموضوع دلوقتي، وهنوصّلك بدكتور مناسب في أسرع وقت.</p>
+      <a href="#hero-form" class="btn btn-light">ابدأ دلوقتي</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="logo" style="margin-bottom:14px;"><span class="rx-mark">Rx</span>روشتة</a>
+        <p>منصة جلسات طبية لايف بتوصّل طلاب الطب بدكاترة متخصصين لشرح موضوع معين، من غير كورسات طويلة.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <ul class="footer-links">
+          <li><a href="#how">إزاي بتشتغل</a></li>
+          <li><a href="#doctors">دكاترتنا</a></li>
+          <li><a href="#reviews">آراء الطلاب</a></li>
+          <li><a href="#faq">الأسئلة الشائعة</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>تواصل معانا</h4>
+        <ul class="footer-links">
+          <li><a href="https://wa.me/201157395271" target="_blank" rel="noopener">واتساب الدعم</a></li>
+          <li><a href="mailto:omar.redminote2@gmail.com">راسلنا على الإيميل</a></li>
+          <li><a href="#">صفحتنا على إنستجرام</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 روشتة. جميع الحقوق محفوظة.</span>
+      <span>روشتة منصة مكملة، مش بديل عن المحاضرات الرسمية في كليتك.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* sticky header shadow */
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  /* mobile nav toggle */
+  const navToggle = document.getElementById('navToggle');
+  const mobilePanel = document.getElementById('mobilePanel');
+  navToggle.addEventListener('click', () => {
+    const open = mobilePanel.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobilePanel.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* urgency chips */
+  const urgencyRow = document.getElementById('urgencyRow');
+  urgencyRow.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    urgencyRow.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+
+  /* rotating placeholder examples */
+  const topicInput = document.getElementById('topicInput');
+  const examples = [
+    'مش فاهم الـ Brachial Plexus خالص',
+    'محتاج مراجعة سريعة في الـ Histology',
+    'عايز حد يشرحلي الـ Embryology من الأول',
+    'تايه في فسيولوجي الكلى قبل الامتحان'
+  ];
+  let exIdx = 0;
+  topicInput.placeholder = examples[0];
+  if(!reduceMotion){
+    setInterval(() => {
+      if(document.activeElement === topicInput || topicInput.value) return;
+      exIdx = (exIdx + 1) % examples.length;
+      topicInput.placeholder = examples[exIdx];
+    }, 3200);
+  }
+
+  /* rx form submit */
+  const rxForm = document.getElementById('rxForm');
+  const rxSuccess = document.getElementById('rxSuccess');
+  const rxReset = document.getElementById('rxReset');
+  const WHATSAPP_NUMBER = '201157395271'; // 01157395271 بصيغة دولية لمصر
+  rxForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const topic = topicInput.value.trim();
+    const waMessage = encodeURIComponent(topic);
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+    window.open(waLink, '_blank');
+    rxForm.classList.add('hidden');
+    rxSuccess.classList.add('show');
+  });
+  rxReset.addEventListener('click', () => {
+    rxForm.reset();
+    urgencyRow.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    urgencyRow.querySelector('.chip[data-level="routine"]').classList.add('active');
+    rxSuccess.classList.remove('show');
+    rxForm.classList.remove('hidden');
+  });
+
+  /* faq accordion */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        if(openItem !== item){
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      if(isOpen){
+        item.classList.remove('open');
+        a.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* scroll reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  if(reduceMotion || !('IntersectionObserver' in window)){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+})();
+</script>
+
+</body>
+</html>
